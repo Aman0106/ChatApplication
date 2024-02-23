@@ -46,6 +46,12 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/dark_background_variant"
+        android:layout_marginVertical="@dimen/margin_medium"/>
+
     <EditText
         android:id="@+id/edt_search_bar"
         android:layout_width="match_parent"

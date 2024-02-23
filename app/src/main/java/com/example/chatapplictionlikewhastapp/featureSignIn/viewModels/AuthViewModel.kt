@@ -49,6 +49,8 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel() {
     }
 
     fun signInAfterVerifyingOtp(code: String) {
+        if(code.length < 6)
+            return
         val credential = PhoneAuthProvider.getCredential(verificationId, code)
 
         authRepository.signInAfterVerifyingCode(credential, object : AuthRepository.SignInCallBack {

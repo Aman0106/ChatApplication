@@ -51,6 +51,10 @@ class ContactsListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = contactsListAdapter
         }
+
+        contactsListAdapter.onItemClicked = {
+
+        }
     }
 
     private fun handleUiInteractions() {

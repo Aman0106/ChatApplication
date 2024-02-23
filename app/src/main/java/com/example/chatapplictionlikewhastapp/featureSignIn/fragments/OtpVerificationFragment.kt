@@ -60,7 +60,7 @@ class OtpVerificationFragment : Fragment() {
 
     private fun observerSignInState() {
         authViewModel.signInState.observe(viewLifecycleOwner) { state ->
-
+            hideProgressBar()
             when (state) {
                 is SignInState.Success -> {
                     Toast.makeText(activity, "Success", Toast.LENGTH_SHORT).show()
@@ -112,7 +112,10 @@ class OtpVerificationFragment : Fragment() {
         moveEditTextFromTo(binding.edtOtp5, binding.edtOtp6, null)
 
         binding.btnNext.setOnClickListener {
+            if (getInput().length < 6)
+                return@setOnClickListener
             authViewModel.signInAfterVerifyingOtp(getInput())
+            showProgressBar()
         }
     }
 
@@ -178,6 +181,17 @@ class OtpVerificationFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showProgressBar() {
+        binding.btnNext.text = ""
+        binding.btnNext.isEnabled = false
+        binding.progressBar.visibility = View.VISIBLE
+    }
+    private fun hideProgressBar() {
+        binding.btnNext.text = "Next"
+        binding.btnNext.isEnabled = true
+        binding.progressBar.visibility = View.INVISIBLE
     }
 
 }

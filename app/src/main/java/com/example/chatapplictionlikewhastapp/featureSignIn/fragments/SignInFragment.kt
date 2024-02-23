@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -60,10 +61,15 @@ class SignInFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             val countryCode = binding.countrycodePicker.selectedCountryCode
             val phoneNumber = "+$countryCode ${binding.edtPhoneNumber.text}"
+            if(phoneNumber.length != 14)
+                return@setOnClickListener
             Log.d("num", phoneNumber)
             authViewModel.signInUserWithNumber(phoneNumber)
 
+            showProgressBar()
+
             val signInStateObserver = Observer<SignInState?> { state ->
+                hideProgressBar()
                 when (state) {
                     is SignInState.Failure -> {
                         Toast.makeText(activity, state.errorMsg, Toast.LENGTH_SHORT).show()
@@ -75,7 +81,7 @@ class SignInFragment : Fragment() {
                     }
 
                     else -> {
-                        Toast.makeText(activity, "Network error", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(activity, "Network error", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -84,6 +90,17 @@ class SignInFragment : Fragment() {
 
 
         }
+    }
+
+    private fun showProgressBar() {
+        binding.btnNext.text = ""
+        binding.btnNext.isEnabled = false
+        binding.progressBar.visibility = View.VISIBLE
+    }
+    private fun hideProgressBar() {
+        binding.btnNext.text = "Next"
+        binding.btnNext.isEnabled = true
+        binding.progressBar.visibility = View.INVISIBLE
     }
 
 }
