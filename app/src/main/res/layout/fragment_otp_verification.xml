@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".featureSignIn.fragments.OtpVerificationFragment">
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:src="@drawable/ic_arrow_back_24"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/dark_text_primary" />
+
+    <TextView
+        android:id="@+id/tv_enter_otp_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large6"
+        android:text="Enter OTP"
+        android:textAlignment="center"
+        android:textSize="30sp"
+
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_usernumber_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_large1"
+        android:text="Enter the 6 digit number sent to "
+
+        android:textAlignment="center"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_enter_otp_txt" />
+
+    <LinearLayout
+        android:id="@+id/layout_otp_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_start"
+        android:orientation="horizontal"
+        android:gravity="center"
+
+        android:padding="@dimen/padding_medium"
+        android:layout_marginTop="@dimen/margin_large2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_usernumber_label">
+
+        <include
+            android:id="@+id/edt_otp_1"
+            layout="@layout/otp_field_layout" />
+
+        <include
+            android:id="@+id/edt_otp_2"
+            layout="@layout/otp_field_layout" />
+
+        <include
+            android:id="@+id/edt_otp_3"
+            layout="@layout/otp_field_layout" />
+
+        <include
+            android:id="@+id/edt_otp_4"
+            layout="@layout/otp_field_layout" />
+
+        <include
+            android:id="@+id/edt_otp_5"
+            layout="@layout/otp_field_layout" />
+
+        <include
+            android:id="@+id/edt_otp_6"
+            layout="@layout/otp_field_layout" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_otp_resend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+
+        android:layout_marginTop="@dimen/margin_large3"
+        android:layout_marginHorizontal="@dimen/margin_start"
+        app:layout_constraintTop_toBottomOf="@+id/layout_otp_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Didn't recieve OTP? "
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/tv_otp_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clickable_resend_text"
+            android:textStyle="bold"
+
+            android:textSize="20sp"
+            android:textColor="@color/dark_primary"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Verify"
+        android:textStyle="bold"
+        android:textColor="@color/dark_text_primary"
+        android:textSize="28sp"
+
+        android:layout_marginTop="@dimen/margin_large4"
+        android:layout_marginHorizontal="@dimen/margin_large6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_otp_resend" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

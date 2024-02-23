@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".featureHome.fragments.ChatFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_medium">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:background="@drawable/search_background"
+            android:minWidth="55dp"
+            android:minHeight="55dp"
+            android:padding="@dimen/margin_medium"
+            android:src="@drawable/ic_arrow_back_24"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/dark_text_primary" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/harmoine_profile_pic"
+            app:civ_border_color="?android:colorPrimary"
+            app:civ_border_width="2dp"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_back"
+            app:layout_constraintEnd_toStartOf="@id/btn_options" />
+
+        <ImageView
+            android:id="@+id/btn_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:background="@drawable/search_background"
+            android:minWidth="55dp"
+            android:minHeight="55dp"
+            android:padding="@dimen/margin_medium"
+            android:src="@drawable/ic_arrow_back_24"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/dark_text_primary" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Harmoine Granger"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+
+        android:layout_marginHorizontal="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_large1"
+        android:background="@color/dark_background_variant"/>
+
+
+</LinearLayout>

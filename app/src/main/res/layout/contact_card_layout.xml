@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contact_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_medium">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_new_chat_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/hagrid_profile_pic1"
+            app:civ_border_color="@color/dark_primary"
+            app:civ_border_width="2dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_sender_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:text="Rubeus Hagrid"
+            android:textSize="24sp"
+            android:textStyle="bold"
+
+            app:layout_constraintStart_toEndOf="@id/img_profile"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invite"
+            android:textColor="@color/dark_primary_variant"
+            android:textSize="16sp"
+
+            android:layout_marginEnd="@dimen/margin_large1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <View
+        android:id="@+id/view_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="@dimen/margin_large5"
+
+        android:layout_marginTop="@dimen/margin_medium"
+        android:background="#19959AC1" />
+
+
+</LinearLayout>

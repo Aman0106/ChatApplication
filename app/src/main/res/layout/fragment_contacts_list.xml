@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_contacts_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".featureHome.fragments.ContactsListFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edt_search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_start"
+            android:layout_marginTop="@dimen/margin_large2"
+            android:background="@drawable/search_background"
+            android:hint="@string/search_hint"
+
+            android:padding="@dimen/padding_medium"
+            android:paddingStart="@dimen/padding_large"
+            android:textCursorDrawable="@drawable/cursor_color_drawable"
+            android:textSize="24sp"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/contact_card_layout"
+
+        android:layout_marginTop="@dimen/margin_large1"/>
+
+</LinearLayout>

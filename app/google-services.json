@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "181708013123",
+    "project_id": "chatapplikewhatsapp-b51a4",
+    "storage_bucket": "chatapplikewhatsapp-b51a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181708013123:android:4a20ba2d4b90d287279ef6",
+        "android_client_info": {
+          "package_name": "com.example.chatapplictionlikewhastapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHllUp2mCypynoIA6WcKoqlQzRGdvhJgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

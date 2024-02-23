@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".featureHome.fragments.RecentChatsFragment">
+
+    <TextView
+        android:id="@+id/tv_app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_small"
+        android:text="@string/app_name"
+        android:textColor="@color/dark_primary"
+
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+
+        android:textColor="@color/dark_text_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/edt_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_large2"
+        android:background="@drawable/search_background"
+        android:hint="@string/search_hint"
+
+        android:padding="@dimen/padding_medium"
+        android:paddingStart="@dimen/padding_large"
+        android:textCursorDrawable="@drawable/cursor_color_drawable"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
+
+    <View
+        android:id="@+id/view_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="@dimen/margin_large1"
+
+        android:layout_marginTop="@dimen/margin_medium"
+        android:background="#7C5B596E"
+        app:layout_constraintTop_toBottomOf="@id/edt_search_bar" />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rec_view_recent_chats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_separator"
+        tools:listitem="@layout/recent_chat_card_layout" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_new_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/dark_primary_variant"
+        android:contentDescription="start new Chats"
+        android:src="@drawable/chat_icon"
+
+        android:layout_marginBottom="@dimen/margin_large4"
+        android:layout_marginEnd="@dimen/margin_large2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
