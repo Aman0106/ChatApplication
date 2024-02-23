@@ -43,11 +43,13 @@ class ChatMessageAdapter(private val context: Context, private val currentUser: 
         }
     }
 
+
+
     override fun getItemCount() = messageList.size
 
     override fun getItemViewType(position: Int): Int {
         val curMessage = messageList[position]
-        if(curMessage.equals(curMessage.senderUid))
+        if(curMessage.senderUid == currentUser)
             return SENT_MESSAGE
         return RECEIVED_MESSAGE
     }

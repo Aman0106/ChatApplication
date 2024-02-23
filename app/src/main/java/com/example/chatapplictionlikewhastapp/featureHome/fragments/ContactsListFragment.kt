@@ -66,6 +66,9 @@ class ContactsListFragment : Fragment() {
     }
 
     private fun onBackPressAction() {
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
         val backPressCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().popBackStack()
