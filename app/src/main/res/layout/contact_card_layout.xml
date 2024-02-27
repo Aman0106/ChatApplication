@@ -17,25 +17,48 @@
             android:id="@+id/img_profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/hagrid_profile_pic1"
+            android:src="@drawable/blank_profileimage1"
             app:civ_border_color="@color/dark_primary"
             app:civ_border_width="2dp"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_sender_name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_medium"
-            android:text="Rubeus Hagrid"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:orientation="vertical"
 
             app:layout_constraintStart_toEndOf="@id/img_profile"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+            <TextView
+                android:id="@+id/tv_contact_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                android:text="Rubeus Hagrid"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:maxEms="11"
+                android:maxLines="1"
+                android:ellipsize="marquee"
+
+               />
+            <TextView
+                android:id="@+id/tv_contact_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                android:text="9814190131"
+                android:textSize="14sp"
+
+                app:layout_constraintStart_toEndOf="@id/img_profile"
+                app:layout_constraintTop_toBottomOf="@id/tv_contact_name"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"

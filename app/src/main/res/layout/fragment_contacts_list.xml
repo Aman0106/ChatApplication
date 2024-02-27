@@ -9,6 +9,7 @@
     tools:context=".featureHome.fragments.ContactsListFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -47,6 +48,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
+        android:id="@+id/view_top_bar_seprator"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/dark_background_variant"
@@ -65,13 +67,29 @@
         android:paddingStart="@dimen/padding_large"
         android:textCursorDrawable="@drawable/cursor_color_drawable"
         android:textSize="24sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_contacts"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/margin_large1"
+        android:layout_height="match_parent">
 
-        tools:listitem="@layout/contact_card_layout" />
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/circular_progressbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_large1"
+
+            tools:listitem="@layout/contact_card_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </LinearLayout>

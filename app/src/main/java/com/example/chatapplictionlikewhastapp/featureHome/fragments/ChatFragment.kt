@@ -27,7 +27,7 @@ class ChatFragment : Fragment() {
 
     private lateinit var chatViewModel: ChatViewModel
     private val homeViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(UsersRepository())
+        HomeViewModelFactory(UsersRepository(requireActivity()))
     }
     private lateinit var chatsAdapter: ChatMessageAdapter
     private lateinit var binding: FragmentChatBinding

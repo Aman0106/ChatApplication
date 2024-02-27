@@ -26,7 +26,7 @@ class RecentChatsFragment : Fragment() {
     private lateinit var binding: FragmentRecentChatsBinding
     private lateinit var recentChatsAdapter: RecentChatsAdapter
     private val homeViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(UsersRepository())
+        HomeViewModelFactory(UsersRepository(requireActivity()))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +59,7 @@ class RecentChatsFragment : Fragment() {
     }
 
     private fun openNewChatFragment() {
-        binding.fabNewChat.setOnClickListener { view ->
+        binding.fabNewChat.setOnClickListener {
             findNavController().navigate(R.id.action_recentChatsFragment_to_contactsListFragment)
 
         }

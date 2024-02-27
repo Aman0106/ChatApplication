@@ -24,7 +24,7 @@ class RecentChatsAdapter: RecyclerView.Adapter<RecentChatsAdapter.RecentChatsVie
     override fun onBindViewHolder(holder: RecentChatsViewHolder, position: Int) {
         val currentChat = recentChatsList[position]
         holder.binding.imgProfile.load(currentChat.senderProfileImage)
-        holder.binding.tvSenderName.text = currentChat.senderName
+        holder.binding.tvContactName.text = currentChat.senderName
         holder.binding.tvLastMessage.text = currentChat.lastMessage
         holder.binding.tvMessageCount.text = currentChat.messagesCount.toString()
         holder.binding.tvMessageTime.text = currentChat.lastMessageTime

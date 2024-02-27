@@ -14,6 +14,8 @@ import com.example.chatapplictionlikewhastapp.featureHome.adapters.ContactsListA
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModel
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModelFactory
+import kotlinx.coroutines.coroutineScope
+import kotlin.coroutines.coroutineContext
 
 
 class ContactsListFragment : Fragment() {
@@ -21,7 +23,7 @@ class ContactsListFragment : Fragment() {
     private lateinit var binding: FragmentContactsListBinding
 
     private val homeViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(UsersRepository())
+        HomeViewModelFactory(UsersRepository(requireActivity()))
     }
 
     private lateinit var contactsListAdapter: ContactsListAdapter
@@ -63,8 +65,10 @@ class ContactsListFragment : Fragment() {
     }
 
     private fun observeContactsList() {
+
         homeViewModel.getContactsList()
         homeViewModel.contactsList.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = View.GONE
             contactsListAdapter.setContactsList(ArrayList(it))
         }
     }

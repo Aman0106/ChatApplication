@@ -22,9 +22,11 @@ class ContactsListAdapter: RecyclerView.Adapter<ContactsListAdapter.ContactsList
     }
 
     override fun onBindViewHolder(holder: ContactsListViewHolder, position: Int) {
-        val currentChat = contactsList[position]
-        holder.binding.imgProfile.load(currentChat.profileImage)
-        holder.binding.tvSenderName.text = currentChat.name
+        val currentContact = contactsList[position]
+        if (currentContact.profileImage != null)
+            holder.binding.imgProfile.load(currentContact.profileImage)
+        holder.binding.tvContactName.text = currentContact.name
+        holder.binding.tvContactPhoneNumber.text = currentContact.phoneNumber
 
         holder.binding.contactCard.setOnClickListener {
             onItemClicked.invoke(contactsList[position])

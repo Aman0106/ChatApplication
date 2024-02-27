@@ -13,5 +13,11 @@
         <item name="android:indeterminateTint">@color/dark_text_primary</item>
 
     </style>
+    <style name="circular_progressbar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:indeterminateTint">@color/dark_primary</item>
+
+    </style>
 
 </resources>

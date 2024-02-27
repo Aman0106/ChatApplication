@@ -3,9 +3,13 @@ package com.example.chatapplictionlikewhastapp.featureHome.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.ContactsUserinfo
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.RecentChatUserDataClass
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class HomeViewModel(private val usersRepository: UsersRepository) : ViewModel() {
     private val _recentChatsList = MutableLiveData<List<RecentChatUserDataClass>>()
@@ -21,8 +25,10 @@ class HomeViewModel(private val usersRepository: UsersRepository) : ViewModel() 
         _recentChatsList.postValue(usersRepository.provideDummyRecentChatsList())
     }
 
-    fun getContactsList() {
-        _contactsList.postValue(usersRepository.provideDummyContactsList())
+     fun getContactsList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _contactsList.postValue(usersRepository.getAllContactsFromDevice())
+        }
     }
 
 }
