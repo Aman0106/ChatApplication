@@ -53,6 +53,7 @@
                 android:layout_marginHorizontal="@dimen/margin_medium"
                 android:text="9814190131"
                 android:textSize="14sp"
+                android:textColor="@color/dark_text_secondary"
 
                 app:layout_constraintStart_toEndOf="@id/img_profile"
                 app:layout_constraintTop_toBottomOf="@id/tv_contact_name"

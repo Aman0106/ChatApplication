@@ -15,6 +15,7 @@ class HomeViewModel(private val usersRepository: UsersRepository) : ViewModel() 
     private val _recentChatsList = MutableLiveData<List<RecentChatUserDataClass>>()
     val recentChatsList: LiveData<List<RecentChatUserDataClass>> = _recentChatsList
 
+    private lateinit var _contactsListCache: List<ContactsUserinfo>
     private val _contactsList = MutableLiveData<List<ContactsUserinfo>>()
     val contactsList: LiveData<List<ContactsUserinfo>> = _contactsList
 
@@ -27,8 +28,22 @@ class HomeViewModel(private val usersRepository: UsersRepository) : ViewModel() 
 
      fun getContactsList() {
         viewModelScope.launch(Dispatchers.IO) {
-            _contactsList.postValue(usersRepository.getAllContactsFromDevice())
+            _contactsListCache = usersRepository.getAllContactsFromDevice()
+            _contactsList.postValue(_contactsListCache)
         }
+    }
+
+    fun filterContactsList(text: String) {
+        val filteredList = ArrayList<ContactsUserinfo>()
+
+        //TODO add number based search
+        for(contact in _contactsListCache) {
+
+            if(contact.name.lowercase().contains(text.lowercase()))
+                    filteredList.add(contact)
+        }
+
+        _contactsList.postValue(filteredList)
     }
 
 }

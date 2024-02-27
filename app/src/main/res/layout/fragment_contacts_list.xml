@@ -62,6 +62,7 @@
         android:layout_marginTop="@dimen/margin_small"
         android:background="@drawable/search_background"
         android:hint="@string/search_hint"
+        android:enabled="false"
 
         android:padding="@dimen/padding_medium"
         android:paddingStart="@dimen/padding_large"

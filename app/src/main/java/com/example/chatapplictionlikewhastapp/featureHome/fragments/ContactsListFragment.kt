@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -62,6 +63,13 @@ class ContactsListFragment : Fragment() {
     private fun handleUiInteractions() {
         onBackPressAction()
         observeContactsList()
+        filterContactsList()
+    }
+
+    private fun filterContactsList() {
+        binding.edtSearchBar.doOnTextChanged { text, start, before, count ->
+            homeViewModel.filterContactsList(text.toString())
+        }
     }
 
     private fun observeContactsList() {
@@ -69,6 +77,7 @@ class ContactsListFragment : Fragment() {
         homeViewModel.getContactsList()
         homeViewModel.contactsList.observe(viewLifecycleOwner) {
             binding.progressBar.visibility = View.GONE
+            binding.edtSearchBar.isEnabled = true
             contactsListAdapter.setContactsList(ArrayList(it))
         }
     }
