@@ -25,5 +25,9 @@
         android:id="@+id/contactsListFragment"
         android:name="com.example.chatapplictionlikewhastapp.featureHome.fragments.ContactsListFragment"
         android:label="fragment_contacts_list"
-        tools:layout="@layout/fragment_contacts_list" />
+        tools:layout="@layout/fragment_contacts_list" >
+        <action
+            android:id="@+id/action_contactsListFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
 </navigation>

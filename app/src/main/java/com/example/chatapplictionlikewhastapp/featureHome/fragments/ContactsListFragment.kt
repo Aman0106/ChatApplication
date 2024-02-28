@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.chatapplictionlikewhastapp.R
 import com.example.chatapplictionlikewhastapp.databinding.FragmentContactsListBinding
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.ContactsListAdapter
 import com.example.chatapplictionlikewhastapp.featureHome.repository.FirebaseClientRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModel
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModelFactory
-import kotlinx.coroutines.coroutineScope
-import kotlin.coroutines.coroutineContext
+import com.google.android.material.snackbar.Snackbar
 
 
 class ContactsListFragment : Fragment() {
@@ -57,7 +58,19 @@ class ContactsListFragment : Fragment() {
         }
 
         contactsListAdapter.onItemClicked = {
-            homeViewModel
+            if (!it.isAppUser) {
+                Snackbar.make(requireView(), "Not a registered User", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(
+                        ContextCompat.getColor(requireActivity(), R.color.dark_background_variant)
+                    )
+                    .setTextColor(
+                        ContextCompat.getColor(requireActivity(), R.color.dark_text_primary)
+                    ).show()
+            } else {
+                homeViewModel.selectedChat = it
+                findNavController().navigate(R.id.action_contactsListFragment_to_chatFragment)
+
+            }
         }
     }
 

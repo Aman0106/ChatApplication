@@ -77,8 +77,8 @@ class ChatFragment : Fragment() {
     }
 
     private fun setTopBarData() {
-        binding.tvUserName.text = homeViewModel.selectedChat?.senderName
-        binding.imgProfileImage.load(homeViewModel.selectedChat?.senderProfileImage)
+        binding.tvUserName.text = homeViewModel.selectedChat?.name
+        binding.imgProfileImage.load(homeViewModel.selectedChat?.profileImage)
     }
 
     private fun observeMessagesList() {

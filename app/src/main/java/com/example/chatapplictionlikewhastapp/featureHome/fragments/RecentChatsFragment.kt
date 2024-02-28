@@ -14,6 +14,7 @@ import com.example.chatapplictionlikewhastapp.R
 import com.example.chatapplictionlikewhastapp.databinding.FragmentRecentChatsBinding
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.ContactsListAdapter
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.RecentChatsAdapter
+import com.example.chatapplictionlikewhastapp.featureHome.pojo.ContactsUserinfo
 import com.example.chatapplictionlikewhastapp.featureHome.repository.FirebaseClientRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModel
@@ -86,7 +87,7 @@ class RecentChatsFragment : Fragment() {
         }
 
         recentChatsAdapter.onItemClicked = {
-            homeViewModel.selectedChat = it
+            homeViewModel.selectedChat = ContactsUserinfo(uid = it.senderUid, name = it.senderName, profileImage = it.senderProfileImage)
             findNavController().navigate(R.id.action_recentChatsFragment_to_chatFragment)
         }
     }
