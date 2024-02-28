@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapplictionlikewhastapp.databinding.FragmentContactsListBinding
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.ContactsListAdapter
+import com.example.chatapplictionlikewhastapp.featureHome.repository.FirebaseClientRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModel
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModelFactory
@@ -24,7 +25,7 @@ class ContactsListFragment : Fragment() {
     private lateinit var binding: FragmentContactsListBinding
 
     private val homeViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(UsersRepository(requireActivity()))
+        HomeViewModelFactory(UsersRepository(requireActivity()), FirebaseClientRepository())
     }
 
     private lateinit var contactsListAdapter: ContactsListAdapter
@@ -56,7 +57,7 @@ class ContactsListFragment : Fragment() {
         }
 
         contactsListAdapter.onItemClicked = {
-
+            homeViewModel
         }
     }
 

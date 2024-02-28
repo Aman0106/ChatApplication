@@ -15,6 +15,7 @@ import coil.load
 import com.example.chatapplictionlikewhastapp.databinding.FragmentChatBinding
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.ChatMessageAdapter
 import com.example.chatapplictionlikewhastapp.featureHome.repository.ChatRepository
+import com.example.chatapplictionlikewhastapp.featureHome.repository.FirebaseClientRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.ChatViewModel
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.ChatViewModelFactory
@@ -27,7 +28,7 @@ class ChatFragment : Fragment() {
 
     private lateinit var chatViewModel: ChatViewModel
     private val homeViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(UsersRepository(requireActivity()))
+        HomeViewModelFactory(UsersRepository(requireActivity()), FirebaseClientRepository())
     }
     private lateinit var chatsAdapter: ChatMessageAdapter
     private lateinit var binding: FragmentChatBinding

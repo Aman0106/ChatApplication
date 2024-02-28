@@ -53,7 +53,7 @@ class AuthViewModel(private val authRepository: AuthRepository): ViewModel() {
             return
         val credential = PhoneAuthProvider.getCredential(verificationId, code)
 
-        authRepository.signInAfterVerifyingCode(credential, object : AuthRepository.SignInCallBack {
+        authRepository.signInAfterVerifyingCode(phoneNumber,credential, object : AuthRepository.SignInCallBack {
             override fun onSuccessListener(authResult: AuthResult) {
                 _signInState.postValue(SignInState.Success)
             }

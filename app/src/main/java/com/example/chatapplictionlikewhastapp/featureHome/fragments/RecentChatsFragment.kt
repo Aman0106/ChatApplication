@@ -2,6 +2,7 @@ package com.example.chatapplictionlikewhastapp.featureHome.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +14,12 @@ import com.example.chatapplictionlikewhastapp.R
 import com.example.chatapplictionlikewhastapp.databinding.FragmentRecentChatsBinding
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.ContactsListAdapter
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.RecentChatsAdapter
+import com.example.chatapplictionlikewhastapp.featureHome.repository.FirebaseClientRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModel
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModelFactory
 import com.example.chatapplictionlikewhastapp.featureSignIn.activities.AuthActivity
+import com.example.chatapplictionlikewhastapp.utils.HelperFunctions
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
@@ -26,7 +29,7 @@ class RecentChatsFragment : Fragment() {
     private lateinit var binding: FragmentRecentChatsBinding
     private lateinit var recentChatsAdapter: RecentChatsAdapter
     private val homeViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(UsersRepository(requireActivity()))
+        HomeViewModelFactory(UsersRepository(requireActivity()), FirebaseClientRepository())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +59,8 @@ class RecentChatsFragment : Fragment() {
 
     private fun handleUInteractions() {
         openNewChatFragment()
+        val num = HelperFunctions.normalisePhoneNumber("+919814190131")
+        Log.d("Helper verification", num)
     }
 
     private fun openNewChatFragment() {
@@ -90,8 +95,8 @@ class RecentChatsFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(activity, AuthActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
+            requireActivity().finish()
         }
     }
 

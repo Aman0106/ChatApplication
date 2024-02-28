@@ -7,6 +7,8 @@ import android.util.Log
 import com.example.chatapplictionlikewhastapp.R
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.ContactsUserinfo
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.RecentChatUserDataClass
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class UsersRepository(private val context: Context) {
 
@@ -49,16 +51,21 @@ class UsersRepository(private val context: Context) {
             dummyRecentChat1,
             dummyRecentChat2,
             dummyRecentChat3,
-
             )
     }
 
+    suspend fun getAllContactsFromDevice(): ArrayList<ContactsUserinfo> {
 
-    fun getAllContactsFromDevice(): List<ContactsUserinfo> {
-        val fromColumns = arrayOf(
-            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
-        )
+        val contactsList = fetchContactsFromUserDevice()
 
+
+
+//        firebaseClientRepository.checkForAppUsers(contactsList)
+
+        return contactsList
+    }
+
+    private fun fetchContactsFromUserDevice(): ArrayList<ContactsUserinfo>{
         val contactsList = ArrayList<ContactsUserinfo>()
         val conResolver: ContentResolver = context.contentResolver
         val cursor = conResolver.query(
@@ -68,9 +75,9 @@ class UsersRepository(private val context: Context) {
         if (cursor != null && cursor.count > 0) {
             while (cursor.moveToNext()) {
                 try {
-                    var uid =
+                    val uid =
                         cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID))
-                    var name =
+                    val name =
                         cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY))
                     var phoneNumber = ""
                     if (cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
@@ -102,10 +109,11 @@ class UsersRepository(private val context: Context) {
             }
             cursor.close()
         }
-//        Log.d(TAG, " Total Contacts(${cursor?.count})")
 
         return contactsList
     }
+
+
 
     fun provideDummyContactsList(): List<ContactsUserinfo> {
         return listOf(

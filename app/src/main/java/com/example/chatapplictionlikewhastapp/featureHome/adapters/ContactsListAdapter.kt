@@ -1,6 +1,7 @@
 package com.example.chatapplictionlikewhastapp.featureHome.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -27,6 +28,9 @@ class ContactsListAdapter: RecyclerView.Adapter<ContactsListAdapter.ContactsList
             holder.binding.imgProfile.load(currentContact.profileImage)
         holder.binding.tvContactName.text = currentContact.name
         holder.binding.tvContactPhoneNumber.text = currentContact.phoneNumber
+
+        if(currentContact.isAppUser)
+            holder.binding.tvInvite.visibility = View.GONE
 
         holder.binding.contactCard.setOnClickListener {
             onItemClicked.invoke(contactsList[position])

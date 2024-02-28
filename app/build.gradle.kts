@@ -61,6 +61,7 @@ dependencies {
     implementation ("com.hbb20:ccp:2.5.0")
 
     //Firebase
+    implementation("com.google.firebase:firebase-firestore:24.10.2")
     implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth:22.3.1")
