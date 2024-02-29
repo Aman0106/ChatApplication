@@ -23,21 +23,25 @@ class HomeViewModel(
     private val _contactsList = MutableLiveData<List<ContactsUserinfo>>()
     val contactsList: LiveData<List<ContactsUserinfo>> = _contactsList
 
+    lateinit var currentUser: String
+
     var selectedChat: ContactsUserinfo? = null
 
     fun getRecentChats() {
         val chats = listOf(usersRepository.provideDummyData())
+        currentUser = firebaseClientRepository.getCurrentUserUid()!!
         _recentChatsList.postValue(usersRepository.provideDummyRecentChatsList())
     }
 
     fun getContactsList() {
-//       getFromFirebase()
+        getFromFirebase()
+//        getDummyContacts()
 
-        getDummyContacts()
     }
 
     private fun getDummyContacts() {
-        _contactsList.postValue(usersRepository.provideDummyContactsList())
+        _contactsListCache = usersRepository.provideDummyContactsList()
+        _contactsList.postValue(_contactsListCache!!)
     }
 
     private fun getFromFirebase() {

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -16,6 +17,7 @@ import com.example.chatapplictionlikewhastapp.databinding.FragmentChatBinding
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.ChatMessageAdapter
 import com.example.chatapplictionlikewhastapp.featureHome.repository.ChatRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.FirebaseClientRepository
+import com.example.chatapplictionlikewhastapp.featureHome.repository.FirestoreChatRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.ChatViewModel
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.ChatViewModelFactory
@@ -36,9 +38,9 @@ class ChatFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val chatViewModelFactory = ChatViewModelFactory(ChatRepository(), FirebaseClientRepository())
+        val chatViewModelFactory = ChatViewModelFactory(ChatRepository(), FirestoreChatRepository())
         chatViewModel = ViewModelProvider(this, chatViewModelFactory)[ChatViewModel::class.java]
-        chatsAdapter = ChatMessageAdapter(requireActivity(), "0")
+        chatsAdapter = ChatMessageAdapter(requireActivity(), homeViewModel.currentUser)
 
     }
 
@@ -58,7 +60,19 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setChats()
         handleUiInteractions()
+    }
+
+    private fun setChats() {
+        chatViewModel.setRoomId(homeViewModel.selectedChat?.uid!!)
+        chatViewModel.roomId.observe(viewLifecycleOwner) {
+            if (it == "") {
+                Toast.makeText(activity, "No Room found", Toast.LENGTH_SHORT).show()
+                return@observe
+            }
+            Toast.makeText(activity, "Room found $it", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun prepareChatsListAdapter() {
@@ -80,6 +94,7 @@ class ChatFragment : Fragment() {
     private fun sendMessage() {
         binding.btnSend.setOnClickListener {
             val message = binding.edtMessageBox.text
+            binding.edtMessageBox.setText("")
             chatViewModel.sendMessageToUser(homeViewModel.selectedChat?.uid!!, message.toString())
         }
     }
@@ -91,7 +106,6 @@ class ChatFragment : Fragment() {
     }
 
     private fun observeMessagesList() {
-        chatViewModel.getAllMessages("")
         chatViewModel.messageList.observe(viewLifecycleOwner) {
             prepareChatsListAdapter()
             chatsAdapter.setMessages(ArrayList(it))
