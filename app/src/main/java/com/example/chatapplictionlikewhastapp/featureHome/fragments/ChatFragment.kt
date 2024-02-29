@@ -36,7 +36,7 @@ class ChatFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val chatViewModelFactory = ChatViewModelFactory(ChatRepository())
+        val chatViewModelFactory = ChatViewModelFactory(ChatRepository(), FirebaseClientRepository())
         chatViewModel = ViewModelProvider(this, chatViewModelFactory)[ChatViewModel::class.java]
         chatsAdapter = ChatMessageAdapter(requireActivity(), "0")
 
@@ -74,11 +74,20 @@ class ChatFragment : Fragment() {
         onBackPressAction()
         observeMessagesList()
         setTopBarData()
+        sendMessage()
+    }
+
+    private fun sendMessage() {
+        binding.btnSend.setOnClickListener {
+            val message = binding.edtMessageBox.text
+            chatViewModel.sendMessageToUser(homeViewModel.selectedChat?.uid!!, message.toString())
+        }
     }
 
     private fun setTopBarData() {
         binding.tvUserName.text = homeViewModel.selectedChat?.name
-        binding.imgProfileImage.load(homeViewModel.selectedChat?.profileImage)
+        if(homeViewModel.selectedChat?.profileImage != null)
+            binding.imgProfileImage.load(homeViewModel.selectedChat?.profileImage)
     }
 
     private fun observeMessagesList() {

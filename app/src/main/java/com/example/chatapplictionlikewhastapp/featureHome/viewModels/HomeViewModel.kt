@@ -15,6 +15,7 @@ class HomeViewModel(
     private val usersRepository: UsersRepository,
     private val firebaseClientRepository: FirebaseClientRepository
 ) : ViewModel() {
+
     private val _recentChatsList = MutableLiveData<List<RecentChatUserDataClass>>()
     val recentChatsList: LiveData<List<RecentChatUserDataClass>> = _recentChatsList
 
@@ -30,11 +31,21 @@ class HomeViewModel(
     }
 
     fun getContactsList() {
+//       getFromFirebase()
+
+        getDummyContacts()
+    }
+
+    private fun getDummyContacts() {
+        _contactsList.postValue(usersRepository.provideDummyContactsList())
+    }
+
+    private fun getFromFirebase() {
         viewModelScope.launch(Dispatchers.IO) {
-//            val rawContacts = usersRepository.getAllContactsFromDevice()
-//            if (_contactsListCache == null)
-//                _contactsListCache = firebaseClientRepository.checkForAppUsers(rawContacts)
-            _contactsList.postValue(usersRepository.provideDummyContactsList())
+            val rawContacts = usersRepository.getAllContactsFromDevice()
+            if (_contactsListCache == null)
+                _contactsListCache = firebaseClientRepository.checkForAppUsers(rawContacts)
+            _contactsList.postValue(_contactsListCache!!)
         }
     }
 
@@ -50,6 +61,10 @@ class HomeViewModel(
         }
 
         _contactsList.postValue(filteredList)
+    }
+
+    fun sendMessageToUser() {
+//        firebaseClientRepository.
     }
 
 }

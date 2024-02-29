@@ -7,8 +7,6 @@ import android.util.Log
 import com.example.chatapplictionlikewhastapp.R
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.ContactsUserinfo
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.RecentChatUserDataClass
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class UsersRepository(private val context: Context) {
 
@@ -44,6 +42,12 @@ class UsersRepository(private val context: Context) {
     private val dummyContact1 = ContactsUserinfo(
         name = "Rubeus Hagrid", profileImage = R.drawable.hagrid_profile_pic1
     )
+    private val dummyContact2 = ContactsUserinfo(
+        name = "dummy",
+        profileImage = R.drawable.hagrid_profile_pic1,
+        uid = "NNaMmhjWSBgFnysR4V895aNyxJF2",
+        isAppUser = true
+    )
 
     fun provideDummyData() = dummyRecentChat1
     fun provideDummyRecentChatsList(): List<RecentChatUserDataClass> {
@@ -51,7 +55,7 @@ class UsersRepository(private val context: Context) {
             dummyRecentChat1,
             dummyRecentChat2,
             dummyRecentChat3,
-            )
+        )
     }
 
     suspend fun getAllContactsFromDevice(): ArrayList<ContactsUserinfo> {
@@ -59,13 +63,12 @@ class UsersRepository(private val context: Context) {
         val contactsList = fetchContactsFromUserDevice()
 
 
-
 //        firebaseClientRepository.checkForAppUsers(contactsList)
 
         return contactsList
     }
 
-    private fun fetchContactsFromUserDevice(): ArrayList<ContactsUserinfo>{
+    private fun fetchContactsFromUserDevice(): ArrayList<ContactsUserinfo> {
         val contactsList = ArrayList<ContactsUserinfo>()
         val conResolver: ContentResolver = context.contentResolver
         val cursor = conResolver.query(
@@ -114,10 +117,9 @@ class UsersRepository(private val context: Context) {
     }
 
 
-
     fun provideDummyContactsList(): List<ContactsUserinfo> {
         return listOf(
-            dummyContact1, dummyContact1, dummyContact1
+            dummyContact1, dummyContact2, dummyContact1
         )
     }
 }
