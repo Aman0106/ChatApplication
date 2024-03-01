@@ -9,6 +9,7 @@ import com.example.chatapplictionlikewhastapp.featureHome.pojo.ContactsUserinfo
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.RecentChatUserDataClass
 import com.example.chatapplictionlikewhastapp.utils.HelperFunctions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -211,16 +212,17 @@ class UsersRepository(private val context: Context) {
             val lastMessage = suspendCancellableCoroutine { continuation ->
                 firestoreDb.collection("chats").document(user.value).collection("messages")
                     .whereEqualTo("read", false)
-                    .orderBy("time_stamp").get()
+                    .orderBy("time_stamp", Query.Direction.DESCENDING).get()
                     .addOnSuccessListener {
                         if (it.documents.size == 0) {
                             continuation.resume(null)
+                            Log.d(TAG, "No Chats Available")
                             return@addOnSuccessListener
                         }
                         continuation.resume(
                             Pair(
                                 it.documents[0].get("content") as String,
-                                it.documents.size
+                                if (getCurrentUserUid() == it.documents[0].get("sender") as String) 0 else it.documents.size
                             )
                         )
                     }
@@ -240,7 +242,7 @@ class UsersRepository(private val context: Context) {
                                         uid = user.key,
                                         lastMessageTime = "",
                                         messagesCount = 0,
-                                        lastMessage = "lastMessage.first",
+                                        lastMessage = "",
                                     )
                                 )
                                 return@addOnSuccessListener
@@ -250,7 +252,7 @@ class UsersRepository(private val context: Context) {
                                     userName = doc.get("userName") as String,
                                     uid = user.key,
                                     lastMessageTime = "",
-                                    messagesCount = lastMessage!!.second,
+                                    messagesCount = lastMessage.second,
                                     lastMessage = lastMessage.first,
                                 )
                             )
@@ -271,7 +273,7 @@ class UsersRepository(private val context: Context) {
     private fun getUnreadMessages(roomId: String, callback: UnreadMessagesCallback) {
         firestoreDb.collection("chats").document(roomId).collection("messages")
             .whereEqualTo("read", false)
-            .orderBy("time_stamp")
+            .orderBy("time_stamp", Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     Log.e(TAG, error.message.toString())
