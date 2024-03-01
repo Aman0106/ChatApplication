@@ -64,20 +64,26 @@ class AuthRepository(private val activity: Activity) {
         callBack: SignInCallBack
     ) {
         firebaseAuth.signInWithCredential(credential)
-            .addOnSuccessListener {
-                val docRef = firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid)
+            .addOnSuccessListener { authResult ->
+                val docRef =
+                    firebaseFirestore.collection("users").document(firebaseAuth.currentUser!!.uid)
                 val normalizedNumber = HelperFunctions.normalisePhoneNumber(phoneNumber)
+                docRef.get().addOnSuccessListener {
+                    if (!it.exists()) {
+                        val countryCode = phoneNumber.substring(0, 3)
+                        val userInfo = mapOf(
+                            "countryCode" to countryCode,
+                            "phoneNumber" to normalizedNumber,
+                            "profileImage" to "",
+                            "userName" to "New User"
+                        )
+                        docRef.set(userInfo)
 
-                val countryCode = phoneNumber.substring(0, 3)
-                val userInfo = mapOf(
-                    "countryCode" to countryCode,
-                    "phoneNumber" to normalizedNumber,
-                    "profileImage" to "",
-                    "userName" to "New User"
-                )
+                    }
+                    callBack.onSuccessListener(authResult)
 
-                docRef.set(userInfo)
-                callBack.onSuccessListener(it)
+                }
+
             }
             .addOnFailureListener {
                 callBack.onFailureListener(it)

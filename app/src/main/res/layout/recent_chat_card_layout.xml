@@ -17,7 +17,7 @@
             android:id="@+id/img_profile"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/hagrid_profile_pic1"
+            android:src="@drawable/blank_profileimage1"
             app:civ_border_color="@color/dark_primary"
             app:civ_border_width="2dp"
 

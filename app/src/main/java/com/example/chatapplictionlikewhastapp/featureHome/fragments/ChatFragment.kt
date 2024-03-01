@@ -16,7 +16,6 @@ import coil.load
 import com.example.chatapplictionlikewhastapp.databinding.FragmentChatBinding
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.ChatMessageAdapter
 import com.example.chatapplictionlikewhastapp.featureHome.repository.ChatRepository
-import com.example.chatapplictionlikewhastapp.featureHome.repository.FirebaseClientRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.FirestoreChatRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.ChatViewModel
@@ -30,7 +29,7 @@ class ChatFragment : Fragment() {
 
     private lateinit var chatViewModel: ChatViewModel
     private val homeViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(UsersRepository(requireActivity()), FirebaseClientRepository())
+        HomeViewModelFactory(UsersRepository(requireActivity()))
     }
     private lateinit var chatsAdapter: ChatMessageAdapter
     private lateinit var binding: FragmentChatBinding
@@ -68,10 +67,10 @@ class ChatFragment : Fragment() {
         chatViewModel.setRoomId(homeViewModel.selectedChat?.uid!!)
         chatViewModel.roomId.observe(viewLifecycleOwner) {
             if (it == "") {
-                Toast.makeText(activity, "No Room found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Be the first to text", Toast.LENGTH_SHORT).show()
                 return@observe
             }
-            Toast.makeText(activity, "Room found $it", Toast.LENGTH_LONG).show()
+//                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         }
     }
 

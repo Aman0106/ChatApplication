@@ -12,16 +12,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapplictionlikewhastapp.R
 import com.example.chatapplictionlikewhastapp.databinding.FragmentRecentChatsBinding
-import com.example.chatapplictionlikewhastapp.featureHome.adapters.ContactsListAdapter
 import com.example.chatapplictionlikewhastapp.featureHome.adapters.RecentChatsAdapter
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.ContactsUserinfo
-import com.example.chatapplictionlikewhastapp.featureHome.repository.FirebaseClientRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModel
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModelFactory
 import com.example.chatapplictionlikewhastapp.featureSignIn.activities.AuthActivity
 import com.example.chatapplictionlikewhastapp.utils.HelperFunctions
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -30,7 +27,7 @@ class RecentChatsFragment : Fragment() {
     private lateinit var binding: FragmentRecentChatsBinding
     private lateinit var recentChatsAdapter: RecentChatsAdapter
     private val homeViewModel: HomeViewModel by activityViewModels {
-        HomeViewModelFactory(UsersRepository(requireActivity()), FirebaseClientRepository())
+        HomeViewModelFactory(UsersRepository(requireActivity()))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +84,7 @@ class RecentChatsFragment : Fragment() {
         }
 
         recentChatsAdapter.onItemClicked = {
-            homeViewModel.selectedChat = ContactsUserinfo(uid = it.senderUid, name = it.senderName, profileImage = it.senderProfileImage)
+            homeViewModel.selectedChat = ContactsUserinfo(uid = it.uid, name = it.userName, profileImage = it.profileImage)
             findNavController().navigate(R.id.action_recentChatsFragment_to_chatFragment)
         }
     }

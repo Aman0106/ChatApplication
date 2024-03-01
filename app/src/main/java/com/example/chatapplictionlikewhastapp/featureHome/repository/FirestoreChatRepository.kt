@@ -7,6 +7,8 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+private const val TAG = "INSIDE_FIRESTORE_CHAT_REPOSITORY"
+
 class FirestoreChatRepository {
     private val firestoreDb = Firebase.firestore
     private val firebaseAuth = FirebaseAuth.getInstance()
@@ -25,20 +27,6 @@ class FirestoreChatRepository {
         fun onSuccess(roomId: String)
         fun onFailure(exception: java.lang.Exception)
     }
-
-//    fun sendMessageToUser(
-//        receiverUid: String,
-//        message: String,
-//        roomId: String,
-//        callback: MessageSentCallback
-//    ) {
-//        val senderUid = firebaseAuth.currentUser!!.uid
-//
-//        if (roomId == "") {
-//            startANewChat(receiverUid, message, callback)
-//        } else
-//            sendMessageToRoom(senderUid, message, roomId)
-//    }
 
     fun setRoomId(receiverUid: String, callBack: RoomFetchCallBack) {
         firestoreDb.collection("users").document(firebaseAuth.currentUser?.uid.toString())
@@ -63,11 +51,20 @@ class FirestoreChatRepository {
                 }
                 val messages = ArrayList<MessageDataClass>()
                 for (doc in value!!) {
+                    val read = doc.get("read") as Boolean
+                    if (!read && firebaseAuth.currentUser!!.uid != doc.get("sender") as String) {
+                        val messageDocRef = firestoreDb.collection("chats").document(roomId)
+                            .collection("messages").document(doc.id)
+
+                        val updateData = mapOf("read" to true)
+                        messageDocRef.update(updateData)
+                    }
                     messages.add(
                         MessageDataClass(
                             message = doc.get("content") as String,
                             senderUid = doc.get("sender") as String,
-                            timeStamp = doc.get("time_stamp").toString()
+                            timeStamp = doc.get("time_stamp").toString(),
+                            read = if (firebaseAuth.currentUser!!.uid == doc.get("sender") as String) read else true
                         )
                     )
                 }
@@ -86,7 +83,8 @@ class FirestoreChatRepository {
             mapOf(
                 "content" to message,
                 "sender" to senderUid,
-                "time_stamp" to FieldValue.serverTimestamp()
+                "time_stamp" to FieldValue.serverTimestamp(),
+                "read" to false
             )
         ).addOnSuccessListener {
             callback.onSuccess(docRef.id)
@@ -95,17 +93,16 @@ class FirestoreChatRepository {
         }
         // Store the chat room_id to the sender's chats map
         firestoreDb.collection("users").document(senderUid).update(
-            mapOf(
-                "chats" to mapOf(receiverUid to docRef.id)
-            )
+            "chats.$receiverUid", docRef.id
         )
 
         // Store the chat room_id to the receiver's chats map
         firestoreDb.collection("users").document(receiverUid).update(
-            mapOf(
-                "chats" to mapOf(senderUid to docRef.id)
-            )
+            "chats.$senderUid", docRef.id
+
         )
+
+        Log.d(TAG, "New Chat")
     }
 
     fun sendMessageToRoom(
@@ -117,7 +114,8 @@ class FirestoreChatRepository {
             mapOf(
                 "content" to message,
                 "sender" to firebaseAuth.currentUser?.uid,
-                "time_stamp" to FieldValue.serverTimestamp()
+                "time_stamp" to FieldValue.serverTimestamp(),
+                "read" to false
             )
         )
 

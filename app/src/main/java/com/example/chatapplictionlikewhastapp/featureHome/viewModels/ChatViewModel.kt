@@ -19,7 +19,7 @@ class ChatViewModel(
     private val _messageList = MutableLiveData<List<MessageDataClass>>()
     val messageList: LiveData<List<MessageDataClass>> get() = _messageList
 
-    private val _roomId = MutableLiveData<String>()
+    private val _roomId = MutableLiveData<String>("")
     val roomId: LiveData<String> get() = _roomId
 
     fun getAllMessages(room: String) {
@@ -43,7 +43,7 @@ class ChatViewModel(
             }
 
             override fun onFailure() {
-                _roomId.postValue("")
+
             }
         })
     }
@@ -52,7 +52,7 @@ class ChatViewModel(
         if (roomId.value == "") {
             firestoreChatRepository.startANewChat(uid, message, object : FirestoreChatRepository.MessageSentCallback {
                 override fun onSuccess(roomId: String) {
-                    _roomId.postValue(roomId)
+                    getAllMessages(roomId)
                 }
 
                 override fun onFailure(exception: Exception) {

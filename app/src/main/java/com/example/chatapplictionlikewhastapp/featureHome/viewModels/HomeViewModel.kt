@@ -6,14 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.ContactsUserinfo
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.RecentChatUserDataClass
-import com.example.chatapplictionlikewhastapp.featureHome.repository.FirebaseClientRepository
 import com.example.chatapplictionlikewhastapp.featureHome.repository.UsersRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val usersRepository: UsersRepository,
-    private val firebaseClientRepository: FirebaseClientRepository
 ) : ViewModel() {
 
     private val _recentChatsList = MutableLiveData<List<RecentChatUserDataClass>>()
@@ -28,14 +26,16 @@ class HomeViewModel(
     var selectedChat: ContactsUserinfo? = null
 
     fun getRecentChats() {
-        val chats = listOf(usersRepository.provideDummyData())
-        currentUser = firebaseClientRepository.getCurrentUserUid()!!
-        _recentChatsList.postValue(usersRepository.provideDummyRecentChatsList())
+        currentUser = usersRepository.getCurrentUserUid()!!
+        viewModelScope.launch(Dispatchers.IO) {
+            val chats = usersRepository.getAllChatsFromFirestore()
+            _recentChatsList.postValue(chats)
+        }
     }
 
     fun getContactsList() {
-        getFromFirebase()
-//        getDummyContacts()
+//        getFromFirebase()
+        getDummyContacts()
 
     }
 
@@ -48,13 +48,13 @@ class HomeViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val rawContacts = usersRepository.getAllContactsFromDevice()
             if (_contactsListCache == null)
-                _contactsListCache = firebaseClientRepository.checkForAppUsers(rawContacts)
+                _contactsListCache = usersRepository.checkForAppUsers(rawContacts)
             _contactsList.postValue(_contactsListCache!!)
         }
     }
 
 
-    fun filterContactsList(text: String) {
+    fun searchContactsList(text: String) {
         val filteredList = ArrayList<ContactsUserinfo>()
 
         //TODO add number based search
@@ -67,8 +67,8 @@ class HomeViewModel(
         _contactsList.postValue(filteredList)
     }
 
-    fun sendMessageToUser() {
-//        firebaseClientRepository.
+    fun listenForIncomingUnreadMessages() {
+//        usersRepository.
     }
 
 }

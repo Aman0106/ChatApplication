@@ -1,9 +1,9 @@
 package com.example.chatapplictionlikewhastapp.featureHome.pojo
 
 data class RecentChatUserDataClass(
-    val senderUid: String,
-    val senderProfileImage : Int,
-    val senderName: String,
+    val uid: String,
+    val profileImage : Int? = null,
+    val userName: String,
     val lastMessage: String,
     val lastMessageTime: String,
     val messagesCount: Int
