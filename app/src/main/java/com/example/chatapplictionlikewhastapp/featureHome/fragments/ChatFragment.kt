@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,7 +22,7 @@ import com.example.chatapplictionlikewhastapp.featureHome.viewModels.ChatViewMod
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModel
 import com.example.chatapplictionlikewhastapp.featureHome.viewModels.HomeViewModelFactory
 
-private val LOG_TAG = "INSIDE_CHAT_FRAGMENT"
+private const val TAG = "INSIDE_CHAT_FRAGMENT"
 
 class ChatFragment : Fragment() {
 
@@ -45,7 +44,7 @@ class ChatFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(LOG_TAG, "Destroyeddsadasd")
+        Log.d(TAG, "Destroyeddsadasd")
     }
 
     override fun onCreateView(
@@ -94,7 +93,7 @@ class ChatFragment : Fragment() {
 
     private fun setTopBarData() {
         binding.tvUserName.text = homeViewModel.selectedChat?.name
-        if(homeViewModel.selectedChat?.profileImage != null)
+        if (homeViewModel.selectedChat?.profileImage != null)
             binding.imgProfileImage.load(homeViewModel.selectedChat?.profileImage)
     }
 
@@ -102,6 +101,7 @@ class ChatFragment : Fragment() {
         chatViewModel.messageList.observe(viewLifecycleOwner) {
             prepareChatsListAdapter()
             chatsAdapter.setMessages(ArrayList(it))
+            binding.recyclerviewMessages.scrollToPosition(it.size - 1)
         }
     }
 
