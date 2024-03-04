@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.MessageDataClass
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -30,22 +29,23 @@ class FirestoreChatRepository {
     }
 
     fun setRoomId(receiverUid: String, callBack: RoomFetchCallBack) {
-        firestoreDb.collection("users").document(firebaseAuth.currentUser?.uid.toString())
-            .get().addOnSuccessListener {
+        firestoreDb.collection("users").document(firebaseAuth.currentUser?.uid.toString()).get()
+            .addOnSuccessListener {
                 if (it.contains("chats")) {
                     val chatMap = it.get("chats") as HashMap<String, String>
                     if (chatMap.containsKey(receiverUid)) {
                         callBack.onSuccess(chatMap[receiverUid]!!)
-                    } else
-                        callBack.onFailure()
+                    } else callBack.onFailure()
                 }
             }
     }
 
+
     fun listenToMessageUpdates(roomId: String, callBack: SnapshotCallBack) {
+
+        //TODO cache all the fields to prevent unnecessary network calls
         firestoreDb.collection("chats").document(roomId).collection("messages")
-            .orderBy("time_stamp")
-            .addSnapshotListener { value, error ->
+            .orderBy("time_stamp").addSnapshotListener { value, error ->
                 if (error != null) {
                     callBack.onFailure(error)
                     return@addSnapshotListener
@@ -54,9 +54,12 @@ class FirestoreChatRepository {
                 for (doc in value!!) {
                     val read = doc.get("read") as Boolean
                     if (!read && firebaseAuth.currentUser!!.uid != doc.get("sender") as String) {
-                        val messageDocRef = firestoreDb.collection("chats").document(roomId)
-                            .collection("messages").document(doc.id)
+                        val messageDocRef =
+                            firestoreDb.collection("chats").document(roomId).collection("messages")
+                                .document(doc.id)
 
+                        //There is major bug that does write operations again and again if there are multiple unread messages
+                        //so 2 unread messages resulted in 22 writes and 48 unread messages resulted in 1.2k writes
                         val updateData = mapOf("read" to true)
                         messageDocRef.update(updateData)
                     }
