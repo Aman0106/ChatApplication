@@ -6,8 +6,10 @@ import android.provider.ContactsContract
 import android.util.Log
 import com.example.chatapplictionlikewhastapp.R
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.ContactsUserinfo
+import com.example.chatapplictionlikewhastapp.featureHome.pojo.MessageDataClass
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.RecentChatUserDataClass
 import com.example.chatapplictionlikewhastapp.utils.HelperFunctions
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -26,7 +28,7 @@ class UsersRepository(private val context: Context) {
         profileImage = R.drawable.hagrid_profile_pic1,
         userName = "Rubeus Hagrid",
         lastMessage = "Yer a wizard Harry!!",
-        lastMessageTime = "9:43 pm",
+        lastMessageTime = Timestamp.now(),
         messagesCount = 3
     )
     private val dummyRecentChat2 = RecentChatUserDataClass(
@@ -34,7 +36,7 @@ class UsersRepository(private val context: Context) {
         profileImage = R.drawable.dumble_profile_pic1,
         userName = "Albus Dumbledore",
         lastMessage = "20 points to Gryffindor",
-        lastMessageTime = "7:38 pm",
+        lastMessageTime = Timestamp.now(),
         messagesCount = 1
     )
     private val dummyRecentChat3 = RecentChatUserDataClass(
@@ -42,7 +44,7 @@ class UsersRepository(private val context: Context) {
         profileImage = R.drawable.harmoine_profile_pic,
         userName = "Harmoine Granger",
         lastMessage = "It's leviOsa not leviosAR",
-        lastMessageTime = "2:46 pm",
+        lastMessageTime = Timestamp.now(),
         messagesCount = 6
     )
 
@@ -215,7 +217,7 @@ class UsersRepository(private val context: Context) {
             return recentChats
 
         for (user in usersUid) {
-            val lastMessage = suspendCancellableCoroutine { continuation ->
+            val lastMessage: Pair<MessageDataClass, Int>? = suspendCancellableCoroutine  { continuation ->
                 firestoreDb.collection("chats").document(user.value).collection("messages")
                     .whereEqualTo("read", false)
                     .orderBy("time_stamp", Query.Direction.DESCENDING).get()
@@ -227,7 +229,11 @@ class UsersRepository(private val context: Context) {
                                 .addOnSuccessListener { querySnapshot ->
                                     continuation.resume(
                                         Pair(
-                                            querySnapshot.documents[0].get("content") as String,
+                                            MessageDataClass(
+                                                message = querySnapshot.documents[0].getString("content")!!,
+                                                senderUid = querySnapshot.documents[0].getString("sender")!!,
+                                                timeStamp = querySnapshot.documents[0].getTimestamp("time_stamp")
+                                            ),
                                             0
                                         )
                                     )
@@ -237,7 +243,11 @@ class UsersRepository(private val context: Context) {
                         }
                         continuation.resume(
                             Pair(
-                                it.documents[0].get("content") as String,
+                                MessageDataClass(
+                                    message = it.documents[0].getString("content")!!,
+                                    senderUid = it.documents[0].getString("sender")!!,
+                                    timeStamp = it.documents[0].getTimestamp("time_stamp")
+                                ),
                                 if (getCurrentUserUid() == it.documents[0].get("sender") as String) 0 else it.documents.size
                             )
                         )
@@ -255,21 +265,22 @@ class UsersRepository(private val context: Context) {
                                 continuation.resume(
                                     RecentChatUserDataClass(
                                         userName = doc.get("userName") as String,
-                                        uid = user.key,
-                                        lastMessageTime = "",
+                                        uid = "",
+                                        lastMessageTime = null,
                                         messagesCount = 0,
                                         lastMessage = "",
                                     )
                                 )
                                 return@addOnSuccessListener
                             }
+                            Log.d(TAG, lastMessage.first.timeStamp?.seconds.toString())
                             continuation.resume(
                                 RecentChatUserDataClass(
                                     userName = doc.get("userName") as String,
                                     uid = user.key,
-                                    lastMessageTime = "",
+                                    lastMessageTime = lastMessage.first.timeStamp,
                                     messagesCount = lastMessage.second,
-                                    lastMessage = lastMessage.first,
+                                    lastMessage = lastMessage.first.message,
                                 )
                             )
                         }

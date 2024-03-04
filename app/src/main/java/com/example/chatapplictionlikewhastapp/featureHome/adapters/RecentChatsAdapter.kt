@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.chatapplictionlikewhastapp.databinding.RecentChatCardLayoutBinding
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.RecentChatUserDataClass
+import java.text.SimpleDateFormat
 
 class RecentChatsAdapter: RecyclerView.Adapter<RecentChatsAdapter.RecentChatsViewHolder>() {
 
@@ -24,13 +25,16 @@ class RecentChatsAdapter: RecyclerView.Adapter<RecentChatsAdapter.RecentChatsVie
     }
 
     override fun onBindViewHolder(holder: RecentChatsViewHolder, position: Int) {
+
         val currentChat = recentChatsList[position]
+        val sdf = SimpleDateFormat("hh:mm aa")
+
         if(currentChat.profileImage != null)
             holder.binding.imgProfile.load(currentChat.profileImage)
         holder.binding.tvContactName.text = currentChat.userName
         holder.binding.tvLastMessage.text = currentChat.lastMessage
-        holder.binding.tvMessageCount.text = currentChat.messagesCount.toString()
-        holder.binding.tvMessageTime.text = currentChat.lastMessageTime
+        holder.binding.tvMessageCount.text = if(currentChat.messagesCount > 99) "99+" else currentChat.messagesCount.toString()
+        holder.binding.tvMessageTime.text = sdf.format(currentChat.lastMessageTime!!.seconds * 1000)
 
 
 

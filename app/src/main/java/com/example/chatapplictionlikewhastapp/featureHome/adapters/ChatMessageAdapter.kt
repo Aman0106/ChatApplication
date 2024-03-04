@@ -10,6 +10,7 @@ import com.example.chatapplictionlikewhastapp.R
 import com.example.chatapplictionlikewhastapp.databinding.ReceivedMessageBoxBinding
 import com.example.chatapplictionlikewhastapp.databinding.SentMessageBoxBinding
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.MessageDataClass
+import java.text.SimpleDateFormat
 
 class ChatMessageAdapter(private val context: Context, private val currentUser: String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -33,13 +34,16 @@ class ChatMessageAdapter(private val context: Context, private val currentUser: 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val curMessage = messageList[position]
+        val sdf = SimpleDateFormat("hh:mm aa")
         if(holder.javaClass == SentViewHolder::class.java){
             val viewHolder = holder as SentViewHolder
             viewHolder.msg.text = curMessage.message
+            viewHolder.timeStamp.text = sdf.format(curMessage.timeStamp!!.seconds * 1000)
         }
         else{
             val viewHolder = holder as ReceivedViewHolder
             viewHolder.msg.text = curMessage.message
+            viewHolder.timeStamp.text = sdf.format(curMessage.timeStamp!!.seconds * 1000)
         }
     }
 
@@ -56,8 +60,10 @@ class ChatMessageAdapter(private val context: Context, private val currentUser: 
 
     inner class SentViewHolder(val view: View): RecyclerView.ViewHolder(view) {
         val msg: TextView = view.findViewById(R.id.msg_sent)
+        val timeStamp: TextView = view.findViewById(R.id.tv_time_stamp)
     }
     inner class ReceivedViewHolder(val view: View): RecyclerView.ViewHolder(view) {
         val msg:TextView = view.findViewById(R.id.msg_received)
+        val timeStamp: TextView = view.findViewById(R.id.tv_time_stamp)
     }
 }

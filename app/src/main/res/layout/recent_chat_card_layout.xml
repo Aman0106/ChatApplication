@@ -24,46 +24,67 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/layout_name_msg"
+
+        <TextView
+            android:id="@+id/tv_contact_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/padding_small"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="Rubeus Hagrid"
+            android:textSize="20sp"
+            android:textStyle="bold"
 
-            android:orientation="vertical"
             app:layout_constraintStart_toEndOf="@id/img_profile"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <TextView
-                android:id="@+id/tv_contact_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="Rubeus Hagrid"
+        <TextView
+            android:id="@+id/tv_last_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:ellipsize="marquee"
+            android:maxEms="12"
+            android:maxLines="1"
+            android:text="Yer a wizard Harry!"
+            android:textColor="@color/dark_text_secondary"
+            android:textSize="16sp"
 
-                android:textSize="20sp"
-                android:textStyle="bold" />
+            app:layout_constraintStart_toEndOf="@id/img_profile"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                android:id="@+id/tv_last_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_small"
-                android:layout_marginTop="@dimen/padding_small"
-                android:text="Yer a wizbndbdndndnnd dhard Harry!"
-                android:maxEms="12"
-                android:maxLines="1"
-                android:ellipsize="marquee"
-                android:textColor="@color/dark_text_secondary"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tv_message_count"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:background="@drawable/messeage_count_background_drawable"
+            android:gravity="center"
+            android:text="3"
+            android:textAlignment="center"
+            android:textSize="16sp"
 
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_message_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9:43 pm"
+            android:textColor="@color/dark_text_secondary"
+            android:textSize="12sp"
+            android:layout_marginBottom="@dimen/margin_medium"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_msg_info"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/padding_small"
             android:gravity="right"
 
@@ -71,27 +92,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tv_message_count"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="@dimen/margin_small"
-                android:background="@drawable/messeage_count_background_drawable"
-                android:gravity="center"
-                android:text="3"
-                android:textAlignment="center"
 
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_message_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:text="9:43 pm"
-                android:textColor="@color/dark_text_secondary"
-                android:textSize="16sp" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

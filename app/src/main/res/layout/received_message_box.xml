@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:gravity="start">
 
 
@@ -9,12 +10,20 @@
         android:id="@+id/msg_received"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_large4"
         android:background="@drawable/received_message_background"
+        android:focusable="true"
         android:padding="@dimen/padding_large"
         android:text="Received message"
-        android:textSize="20sp"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:focusable="true"
-        android:layout_marginEnd="@dimen/margin_large4"/>
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_time_stamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:text="9:43 am"
+        android:textColor="@color/dark_text_secondary" />
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.chatapplictionlikewhastapp.featureHome.repository
 
 import android.util.Log
 import com.example.chatapplictionlikewhastapp.featureHome.pojo.MessageDataClass
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -63,7 +64,7 @@ class FirestoreChatRepository {
                         MessageDataClass(
                             message = doc.get("content") as String,
                             senderUid = doc.get("sender") as String,
-                            timeStamp = doc.get("time_stamp").toString(),
+                            timeStamp = doc.get("time_stamp") as Timestamp,
                             read = if (firebaseAuth.currentUser!!.uid == doc.get("sender") as String) read else true
                         )
                     )
@@ -83,7 +84,7 @@ class FirestoreChatRepository {
             mapOf(
                 "content" to message,
                 "sender" to senderUid,
-                "time_stamp" to FieldValue.serverTimestamp(),
+                "time_stamp" to Timestamp.now(),
                 "read" to false
             )
         ).addOnSuccessListener {
@@ -114,7 +115,7 @@ class FirestoreChatRepository {
             mapOf(
                 "content" to message,
                 "sender" to firebaseAuth.currentUser?.uid,
-                "time_stamp" to FieldValue.serverTimestamp(),
+                "time_stamp" to Timestamp.now(),
                 "read" to false
             )
         )
