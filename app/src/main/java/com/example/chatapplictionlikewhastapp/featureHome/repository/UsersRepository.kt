@@ -118,6 +118,12 @@ class UsersRepository(private val context: Context) {
         uid = "NNaMmhjWSBgFnysR4V895aNyxJF2",
         isAppUser = true
     )
+    private val dummyContact3 = ContactsUserinfo(
+        name = "dummy",
+        profileImage = R.drawable.hagrid_profile_pic1,
+        uid = "NNaMmhjWSBgFnysR4V895aNyxJF2",
+        isAppUser = true
+    )
 
     fun provideDummyData() = dummyRecentChat1
     fun provideDummyRecentChatsList(): List<RecentChatUserDataClass> {
@@ -189,14 +195,14 @@ class UsersRepository(private val context: Context) {
         val usersUid = suspendCancellableCoroutine { continuation ->
             firestoreDb.collection("users").document(getCurrentUserUid()!!).get()
                 .addOnSuccessListener { doc ->
-                    val uids = HashMap<String, String>()
+                    val uidMapList = HashMap<String, String>()
                     if (doc.contains("chats")) {
                         val chatsMap = doc.get("chats") as Map<String, String>
                         for (chat in chatsMap) {
-                            uids[chat.key] = chat.value
+                            uidMapList[chat.key] = chat.value
                         }
 
-                        continuation.resume(uids)
+                        continuation.resume(uidMapList)
                     }
                 }.addOnFailureListener {
                     Log.d(TAG, "No previous Chats")
@@ -215,7 +221,17 @@ class UsersRepository(private val context: Context) {
                     .orderBy("time_stamp", Query.Direction.DESCENDING).get()
                     .addOnSuccessListener {
                         if (it.documents.size == 0) {
-                            continuation.resume(null)
+                            firestoreDb.collection("chats").document(user.value)
+                                .collection("messages")
+                                .orderBy("time_stamp", Query.Direction.DESCENDING).limit(1).get()
+                                .addOnSuccessListener { querySnapshot ->
+                                    continuation.resume(
+                                        Pair(
+                                            querySnapshot.documents[0].get("content") as String,
+                                            0
+                                        )
+                                    )
+                                }
                             Log.d(TAG, "No Chats Available")
                             return@addOnSuccessListener
                         }
@@ -309,7 +325,7 @@ class UsersRepository(private val context: Context) {
 
     fun provideDummyContactsList(): List<ContactsUserinfo> {
         return listOf(
-            dummyContact1, dummyContact2, dummyContact1
+            dummyContact1, dummyContact2, dummyContact3
         )
     }
 }

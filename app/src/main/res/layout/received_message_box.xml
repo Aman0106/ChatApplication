@@ -13,7 +13,8 @@
         android:padding="@dimen/padding_large"
         android:text="Received message"
         android:textSize="20sp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:focusable="true"
         android:layout_marginEnd="@dimen/margin_large4"/>
 
 </LinearLayout>

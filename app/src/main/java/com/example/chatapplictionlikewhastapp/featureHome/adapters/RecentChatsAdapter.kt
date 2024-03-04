@@ -1,6 +1,8 @@
 package com.example.chatapplictionlikewhastapp.featureHome.adapters
 
+import android.opengl.Visibility
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -29,6 +31,11 @@ class RecentChatsAdapter: RecyclerView.Adapter<RecentChatsAdapter.RecentChatsVie
         holder.binding.tvLastMessage.text = currentChat.lastMessage
         holder.binding.tvMessageCount.text = currentChat.messagesCount.toString()
         holder.binding.tvMessageTime.text = currentChat.lastMessageTime
+
+
+
+        if (currentChat.messagesCount == 0)
+            holder.binding.tvMessageCount.visibility = View.INVISIBLE
 
         holder.binding.recentChatCard.setOnClickListener {
             onItemClicked.invoke(recentChatsList[position])

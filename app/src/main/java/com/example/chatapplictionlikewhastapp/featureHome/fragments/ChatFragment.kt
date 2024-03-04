@@ -65,13 +65,7 @@ class ChatFragment : Fragment() {
 
     private fun setChats() {
         chatViewModel.setRoomId(homeViewModel.selectedChat?.uid!!)
-        chatViewModel.roomId.observe(viewLifecycleOwner) {
-            if (it == "") {
-                Toast.makeText(activity, "Be the first to text", Toast.LENGTH_SHORT).show()
-                return@observe
-            }
-//                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
-        }
+
     }
 
     private fun prepareChatsListAdapter() {
